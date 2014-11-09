@@ -31,9 +31,9 @@ MainWindow::MainWindow(QWidget *parent) :
     awesome->setDefaultOption("color-active", QColor(255,255,255));
     awesome->setDefaultOption("color-selected", QColor(255,255,255));*/
 
-    ui->actionAddScreen->setIcon(awesome->icon(fa::th));
+    /*ui->actionAddScreen->setIcon(awesome->icon(fa::th));
     ui->actionAddView->setIcon(awesome->icon(fa::videocamera));
-    ui->actionFullscreen->setIcon(awesome->icon(fa::arrowsalt));
+    ui->actionFullscreen->setIcon(awesome->icon(fa::arrowsalt));*/
 
     this->addScreen();
 
@@ -41,10 +41,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionOpen, SIGNAL(triggered()), this, SLOT(load()));
     connect(ui->actionAddScreen, SIGNAL(triggered()), this, SLOT(addScreen()));
     connect(ui->actionAddView, SIGNAL(triggered()), this, SLOT(addView()));
+    connect(ui->actionRenameScreen, SIGNAL(triggered()), this, SLOT(renameScreen()));
     connect(ui->actionFullscreen, SIGNAL(triggered()), this, SLOT(toggleFullscreen()));
 
     connect(ui->screens, SIGNAL(tabCloseRequested(int)), this, SLOT(removeScreen(int)));
-    connect(ui->screens, SIGNAL(tabBarDoubleClicked(int)), this, SLOT(renameScreen(int)));
 }
 
 MainWindow::~MainWindow()
@@ -83,6 +83,10 @@ void MainWindow::renameScreen(int index)
     QString text = QInputDialog::getText(this, tr("Rename screen"), tr("New screen title"));
 
     if (text != NULL) {
+        if (index == -1) {
+            index = ui->screens->currentIndex();
+        }
+
         ui->screens->setTabText(index, text);
     }
 }

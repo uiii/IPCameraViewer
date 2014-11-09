@@ -78,7 +78,6 @@
     </property>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
-    <addaction name="actionSave_as"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -100,6 +99,8 @@
     </property>
     <addaction name="actionAddScreen"/>
     <addaction name="actionAddView"/>
+    <addaction name="separator"/>
+    <addaction name="actionRenameScreen"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -149,11 +150,6 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actionSave_as">
-   <property name="text">
-    <string>Save &amp;as ...</string>
-   </property>
-  </action>
   <action name="actionQuit">
    <property name="text">
     <string>&amp;Quit</string>
@@ -167,6 +163,11 @@
     <string>&amp;About</string>
    </property>
   </action>
+  <action name="actionRenameScreen">
+   <property name="text">
+    <string>Rename screen</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
@@ -178,8 +179,8 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>434</x>
-     <y>313</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
      <x>434</x>

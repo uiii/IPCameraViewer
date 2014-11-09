@@ -21,7 +21,7 @@ public:
 public slots:
     Screen* addScreen(QString title = QString());
     void removeScreen(int index);
-    void renameScreen(int index);
+    void renameScreen(int index = -1);
 
     void addView();
 
