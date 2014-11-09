@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QList>
-#include <QJsonObject>
 
 namespace Ui {
     class Screen;

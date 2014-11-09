@@ -6,9 +6,10 @@
 #include <QDebug>
 #include <QInputDialog>
 #include <QFileDialog>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonDocument>
+#include <QMessageBox>
+
+#include <qjson/parser.h>
+#include <qjson/serializer.h>
 
 #include "QtAwesome.h"
 
@@ -110,38 +111,47 @@ void MainWindow::save()
 
     if (! filename.isEmpty()) {
         // create JSON object
-        QJsonArray screensJson;
+        QVariantList screensJson;
         for(int i = 0; i < ui->screens->count(); ++i) {
-        Screen* screen = (Screen*) ui->screens->widget(i);
+            Screen* screen = (Screen*) ui->screens->widget(i);
 
-        QJsonArray viewsJson;
-        for(View* view : screen->getViews()) {
-            QJsonObject viewJson;
-            viewJson["title"] = view->getTitle();
-            viewJson["uri"] = view->getPlayer()->getUri();
+            QVariantList viewsJson;
+            for(View* view : screen->getViews()) {
+                QVariantMap viewJson;
+                viewJson.insert("title", view->getTitle());
+                viewJson.insert("uri", view->getPlayer()->getUri());
 
-            viewsJson.append(viewJson);
+                viewsJson.append(viewJson);
+            }
+
+            QVariantMap screenJson;
+            screenJson.insert("title", ui->screens->tabText(i));
+            screenJson.insert("views", viewsJson);
+            screensJson.append(screenJson);
         }
 
-        QJsonObject screenJson;
-        screenJson["title"] = ui->screens->tabText(i);
-        screenJson["views"] = viewsJson;
-        screensJson.append(screenJson);
-        }
-
-        QJsonObject json;
-        json["screens"] = screensJson;
+        QVariantMap json;
+        json.insert("screens", screensJson);
 
         // save JSON document
-        QJsonDocument jsonDoc(json);
+        QJson::Serializer serializer;
+        serializer.setIndentMode(QJson::IndentFull);
 
-        QFile file(filename);
-        if (!file.open(QIODevice::WriteOnly)) {
-            qWarning("Couldn't open save file.");
+        bool ok;
+        QByteArray data = serializer.serialize(json, &ok);
+
+        if (! ok) {
+            QMessageBox::critical(this, "Save failure", "Save failed.");
             return;
         }
 
-        file.write(jsonDoc.toJson());
+        QFile file(filename);
+        if (!file.open(QIODevice::WriteOnly)) {
+            QMessageBox::critical(this, "Save failure", "Couldn't open save file.");
+            return;
+        }
+
+        file.write(data);
 
         qDebug() << json;
     }
@@ -154,27 +164,34 @@ void MainWindow::load()
     if (! filename.isEmpty()) {
         QFile file(filename);
         if (!file.open(QIODevice::ReadOnly)) {
-            qWarning("Couldn't open save file.");
+            QMessageBox::critical(this, "Load failure", "Couldn't open save file.");
             return;
         }
 
         QByteArray data = file.readAll();
 
-        QJsonDocument jsonDoc(QJsonDocument::fromJson(data));
-        QJsonObject json = jsonDoc.object();
+        QJson::Parser parser;
+
+        bool ok;
+        QVariantMap json = parser.parse(data, &ok).toMap();
+
+        if (! ok) {
+            QMessageBox::critical(this, "Load failure", "Loaded file isn't valid save file.");
+            return;
+        }
 
         while(ui->screens->count() > 0) {
             removeScreen(0);
         }
 
-        for(QJsonValueRef screenValueRef : json["screens"].toArray()) {
-            QJsonObject screenJson = screenValueRef.toObject();
+        for(QVariant item : json["screens"].toList()) {
+            QVariantMap screenJson = item.toMap();
 
             Screen* screen = addScreen(screenJson["title"].toString());
             screen->removeView(screen->getViews()[0]);
 
-            for(QJsonValueRef viewValueRef : screenJson["views"].toArray()) {
-                QJsonObject viewJson = viewValueRef.toObject();
+            for(QVariant item : screenJson["views"].toList()) {
+                QVariantMap viewJson = item.toMap();
 
                 View* view = screen->addView(viewJson["title"].toString());
                 view->getPlayer()->setUri(viewJson["uri"].toString());
@@ -186,5 +203,5 @@ void MainWindow::load()
 
 void MainWindow::updateTabBar()
 {
-    ui->screens->tabBar()->setVisible(ui->screens->count() > 1);
+    //ui->screens->tabBar()->setVisible(ui->screens->count() > 1);
 }

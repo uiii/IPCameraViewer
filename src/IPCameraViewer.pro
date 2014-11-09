@@ -10,7 +10,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = IPCameraViewer
 TEMPLATE = app
-CONFIG += c++11
+CONFIG += debug
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -35,6 +35,8 @@ FORMS    += mainwindow.ui \
     viewsettings.ui \
     viewoverlay.ui
 
-LIBS += -lvlc -lX11
+LIBS += -lvlc -lX11 -lqjson
+
+QMAKE_CXXFLAGS += -std=c++11
 
 include(../vendor/QtAwesome/QtAwesome.pri)
