@@ -9,7 +9,7 @@ dependecies
 - QJson
 
 > On Ubuntu:
-> `sudo apt-get install g++ qt4-default libvlc vlc libqjson`
+> `sudo apt-get install g++ qt4-default libvlc-dev vlc libqjson-dev`
 >
 > On Archlinux:
 > `pacman -S gcc-multilib qt4 libvlc vlc qjson`
