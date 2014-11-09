@@ -1,0 +1,18 @@
+dependecies
+===========
+qt5
+libVLC
+
+compile
+=======
+
+> mkdir build
+> cd build
+> qmake ../src
+> make
+
+run
+===
+
+in build directory
+> ./IPCameraViewer

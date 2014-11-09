@@ -1,0 +1,54 @@
+#include "vlcqtview.h"
+
+#include <vlc-qt/Common.h>
+#include <vlc-qt/Instance.h>
+#include <vlc-qt/Media.h>
+#include <vlc-qt/MediaPlayer.h>
+#include <vlc-qt/WidgetVideo.h>
+
+VlcInstance* VlcQtView::instance = 0;
+
+VlcQtView::VlcQtView(QString title, QString uri, QWidget *parent) :
+    QWidget(parent),
+    uri(uri)
+{
+
+    VlcWidgetVideo* video = new VlcWidgetVideo;
+
+    video->setStyleSheet("background-color: rgb(0,0,0);");
+    video->setAttribute(Qt::WA_PaintOnScreen, false);
+
+    QVBoxLayout* layout = new QVBoxLayout;
+    layout->addWidget(video);
+    ui->videoWrapper->setLayout(layout);
+
+    // setup VLC
+    if (! instance) {
+        instance = new VlcInstance(VlcCommon::args(), this);
+    }
+
+    player = new VlcMediaPlayer(instance);
+
+    player->setVideoWidget(video);
+
+    play();
+}
+
+VlcQtView::~VlcQtView()
+{
+    delete player;
+    delete media;
+    delete instance;
+    delete awesome;
+    delete ui;
+}
+
+void VlcQtView::play()
+{
+    if (uri.isEmpty()) {
+        return;
+    }
+
+    media = new VlcMedia(uri, instance);
+    player->open(media);
+}
