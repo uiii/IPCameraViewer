@@ -24,6 +24,8 @@ qmake ../src
 make
 ```
 
+> Note: If you have installed qt5 and qt4 together, you have to use Qt4 version of qmake (Ubuntu: `qt4-qmake`, Archlinux: `qmake-qt4`)
+
 run
 ===
 

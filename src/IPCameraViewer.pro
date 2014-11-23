@@ -4,6 +4,9 @@
 #
 #-------------------------------------------------
 
+equals(QT_MAJOR_VERSION, 5): error("Requires Qt4! Run Qt4 version of qmake")
+greaterThan(QT_MAJOR_VERSION, 5): error("Requires Qt4! Run Qt4 version of qmake")
+
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
