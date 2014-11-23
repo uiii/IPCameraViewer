@@ -62,7 +62,6 @@ View::View(VideoPlayer* player, Screen* screen) :
     connect(overlayUi->moveDownButton, SIGNAL(clicked()), this, SIGNAL(movedDown()));
     connect(overlayUi->moveLeftButton, SIGNAL(clicked()), this, SIGNAL(movedLeft()));
     connect(overlayUi->moveRightButton, SIGNAL(clicked()), this, SIGNAL(movedRight()));
-
 }
 
 View::~View()
@@ -84,6 +83,11 @@ VideoPlayer*View::getPlayer()
     return player;
 }
 
+bool View::isZoomed()
+{
+    return screen->getZoomedView() == this;
+}
+
 void View::setTitle(QString title)
 {
     ui->title->setText(title);
@@ -99,9 +103,8 @@ void View::openSettings()
 
 void View::setZoomed(bool flag)
 {
-    qDebug() << "zoomed";
-    qDebug() << flag;
     ui->zoomButton->setIcon(awesome->icon(flag ? fa::compress : fa::expand));
+    ui->zoomButton->setChecked(flag);
     ui->removeButton->setHidden(flag);
     ui->moveButton->setHidden(flag);
     ui->zoomedLabel->setVisible(flag);
@@ -112,6 +115,11 @@ void View::setZoomed(bool flag)
 void View::setMovable(bool flag)
 {
     isMovable = flag;
+
+    ui->settingsButton->setEnabled(! flag);
+    ui->zoomButton->setEnabled(! flag);
+    ui->removeButton->setEnabled(! flag);
+
     updateOverlay();
 }
 
@@ -123,6 +131,11 @@ void View::setExpandable(bool flag)
 void View::setRemoveable(bool flag)
 {
     ui->removeButton->setEnabled(flag);
+}
+
+void View::mouseDoubleClickEvent(QMouseEvent*)
+{
+    setZoomed(! isZoomed());
 }
 
 void View::resizeEvent(QResizeEvent*)
@@ -152,12 +165,10 @@ void View::updateOverlay()
 
     if (showOverlay) {
         QRect rect = ui->video->geometry();
-        qDebug() << rect;
         overlay->move(rect.topLeft());
         overlay->setFixedSize(rect.size());
         overlay->setVisible(true);
     } else {
-        qDebug() << "set hidden";
         overlay->setHidden(true);
     }
 }

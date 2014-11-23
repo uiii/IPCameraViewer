@@ -33,7 +33,8 @@ FORMS    += mainwindow.ui \
     screen.ui \
     view.ui \
     viewsettings.ui \
-    viewoverlay.ui
+    viewoverlay.ui \
+    about.ui
 
 LIBS += -lvlc -lX11 -lqjson
 

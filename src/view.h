@@ -25,6 +25,8 @@ public:
     QString getTitle();
     VideoPlayer* getPlayer();
 
+    bool isZoomed();
+
 signals:
     void zoomed();
     void removed();
@@ -42,6 +44,7 @@ public slots:
     void setRemoveable(bool flag);
 
 protected:
+    void mouseDoubleClickEvent(QMouseEvent *);
     void resizeEvent(QResizeEvent *);
     void showEvent(QShowEvent *);
 

@@ -20,6 +20,7 @@ public:
     ~Screen();
 
     const QList<View*>& getViews() const;
+    View* getZoomedView() const;
 
 public slots:
     View* addView(QString title = QString());

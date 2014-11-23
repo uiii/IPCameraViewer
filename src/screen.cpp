@@ -25,8 +25,6 @@ Screen::Screen(QWidget *parent) :
 
 Screen::~Screen()
 {
-    qDebug() << "destruct screen";
-
     delete grid;
 
     for (View* view : views) {
@@ -39,6 +37,11 @@ Screen::~Screen()
 const QList<View*>& Screen::getViews() const
 {
     return views;
+}
+
+View*Screen::getZoomedView() const
+{
+    return zoomedView;
 }
 
 View* Screen::addView(QString title)
@@ -66,7 +69,6 @@ View* Screen::addView(QString title)
 
 void Screen::zoomView(View* view)
 {
-    qDebug() << "zoom";
     zoomedView = view;
 
     updateLayout();
@@ -99,7 +101,6 @@ void Screen::moveLeft(View* view)
     }
 
     int index = views.indexOf(view);
-    qDebug() << index;
     moveView(index, index - 1);
 }
 
@@ -140,7 +141,6 @@ void Screen::moveView(int from, int to)
 
 void Screen::updateLayout()
 {
-    qDebug() << "update";
     // clear layout
     delete grid;
     grid = new QGridLayout;

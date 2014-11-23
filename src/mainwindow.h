@@ -5,6 +5,7 @@
 
 namespace Ui {
     class MainWindow;
+    class About;
 }
 
 class QtAwesome;
@@ -27,13 +28,16 @@ public slots:
 
     void toggleFullscreen();
 
-    void save();
-    void load();
+    void save(QString filename = QString());
+    void load(QString filename = QString());
 
 private:
     void updateTabBar();
 
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
+    Ui::About* aboutUi;
+
+    QDialog* about;
 
     QtAwesome* awesome;
 

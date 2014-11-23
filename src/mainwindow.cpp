@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ui_about.h"
 
 #include <iostream>
 
@@ -20,9 +21,12 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    aboutUi(new Ui::About),
+    about(new QDialog(this)),
     lastMaxScreenIndex(0)
 {
     ui->setupUi(this);
+    aboutUi->setupUi(about);
 
     awesome = new QtAwesome(this);
     awesome->initFontAwesome();
@@ -43,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionAddView, SIGNAL(triggered()), this, SLOT(addView()));
     connect(ui->actionRenameScreen, SIGNAL(triggered()), this, SLOT(renameScreen()));
     connect(ui->actionFullscreen, SIGNAL(triggered()), this, SLOT(toggleFullscreen()));
+    connect(ui->actionAbout, SIGNAL(triggered()), about, SLOT(show()));
 
     connect(ui->screens, SIGNAL(tabCloseRequested(int)), this, SLOT(removeScreen(int)));
 }
@@ -109,9 +114,11 @@ void MainWindow::toggleFullscreen()
     }
 }
 
-void MainWindow::save()
+void MainWindow::save(QString filename)
 {
-    QString filename = QFileDialog::getSaveFileName(this, "Save screens", "save.json", "JSON (*.json)");
+    if (filename.isEmpty()) {
+        filename = QFileDialog::getSaveFileName(this, "Save screens", "save.json", "JSON (*.json)");
+    }
 
     if (! filename.isEmpty()) {
         // create JSON object
@@ -151,24 +158,24 @@ void MainWindow::save()
 
         QFile file(filename);
         if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::critical(this, "Save failure", "Couldn't open save file.");
+            QMessageBox::critical(this, "Save failure", QString("Couldn't open file '%1'.").arg(filename));
             return;
         }
 
         file.write(data);
-
-        qDebug() << json;
     }
 }
 
-void MainWindow::load()
+void MainWindow::load(QString filename)
 {
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), "JSON (*.json)");
+    if (filename.isEmpty()) {
+        filename = QFileDialog::getOpenFileName(this, tr("Open File"), QString(), "JSON (*.json)");
+    }
 
     if (! filename.isEmpty()) {
         QFile file(filename);
         if (!file.open(QIODevice::ReadOnly)) {
-            QMessageBox::critical(this, "Load failure", "Couldn't open save file.");
+            QMessageBox::critical(this, "Load failure", QString("Couldn't open file '%1'.").arg(filename));
             return;
         }
 
@@ -180,7 +187,7 @@ void MainWindow::load()
         QVariantMap json = parser.parse(data, &ok).toMap();
 
         if (! ok) {
-            QMessageBox::critical(this, "Load failure", "Loaded file isn't valid save file.");
+            QMessageBox::critical(this, "Load failure", QString("File '%1' isn't valid save file.").arg(filename));
             return;
         }
 
