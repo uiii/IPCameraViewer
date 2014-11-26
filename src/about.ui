@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>347</width>
-    <height>266</height>
+    <width>369</width>
+    <height>285</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -89,7 +89,7 @@
    <item>
     <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Created by &lt;br/&gt;Richard Jedlička (&lt;a href=&quot;http://uiii.cz&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://uiii.cz&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;With support by&lt;br/&gt;Radek Tříška (&lt;a href=&quot;http://rapidlab.cz&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://rapidlab.cz&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Created by &lt;br/&gt;Richard Jedlička (&lt;a href=&quot;http://uiii.cz&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://uiii.cz&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;With support by&lt;br/&gt;Radek Tříška (&lt;a href=&quot;http://rapidlab.cz&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://rapidlab.cz&lt;/span&gt;&lt;/a&gt;)&lt;br/&gt;BEZPO Benešov s.r.o. (&lt;a href=&quot;http://www.bezpo-bn.cz&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://www.bezpo-bn.cz&lt;/span&gt;&lt;/a&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
