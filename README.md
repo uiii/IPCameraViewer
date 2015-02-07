@@ -34,3 +34,27 @@ in build directory
 ```
 ./IPCameraViewer
 ```
+
+usage
+===
+
+Enter video stream url or IP camera connection string.
+
+
+tested cameras
+===
+
+Apexis APM-J0233-POE-IRC
+```
+http://IPADDRESS/videostream.asf?user=USERNAME&pwd=PASSWORD&rolution=640*480
+```
+
+Apexis APM-J011-WS-IRC
+```
+http://IPADDRESS/videostream.asf?user=USERNAME&pwd=PASSWORD&rolution=640*480
+```
+
+Apexis APM-J012-WS
+```
+http://IPADDRESS/videostream.asf?user=USERNAME&pwd=PASSWORD
+```
