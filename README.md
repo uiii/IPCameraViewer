@@ -1,5 +1,11 @@
-dependecies
-===========
+About project
+===
+
+IPCameraViewer the QT frontend for displaying multiple video streams on the screen.
+The program supports tiled display windows and multiple tabs. Configuration can be imported or exported as a JSON file.
+
+Dependecies
+===
 
 - make
 - g++
@@ -14,8 +20,8 @@ dependecies
 > On Archlinux:
 > `pacman -S gcc-multilib qt4 libvlc vlc qjson`
 
-compile
-=======
+Compile
+===
 
 ```
 mkdir build
@@ -26,7 +32,7 @@ make
 
 > Note: If you have installed qt5 and qt4 together, you have to use Qt4 version of qmake (Ubuntu: `qt4-qmake`, Archlinux: `qmake-qt4`)
 
-run
+Run
 ===
 
 in build directory
@@ -35,13 +41,17 @@ in build directory
 ./IPCameraViewer
 ```
 
-usage
+Usage
 ===
 
-Enter video stream url or IP camera connection string.
+Create window and enter video stream url or IP camera connection string.
 
+Export JSON configuration file can be loaded at application startup.
+```
+./IPCameraViewer /path/to/config.json
+```
 
-tested cameras
+Tested cameras
 ===
 
 Apexis APM-J0233-POE-IRC
